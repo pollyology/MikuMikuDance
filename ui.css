@@ -1,0 +1,32 @@
+body
+{
+    overflow: hidden;
+    /*background-image: url("./assets/images/leek.png");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    background-position: 0 0;*/
+}
+
+#bg
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    justify-content: center;
+    align-content: center;
+
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bg-tile
+{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}

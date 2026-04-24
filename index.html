@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Miku Miku Dance!</title>
+	<link rel = "stylesheet" href = "ui.css">
+    <style>
+		#character
+		{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 45%;
+			height: auto;
+			transform: translate(-50%, -50%);
+			z-index: 1;
+			pointer-events: none;
+			display: block;
+		}
+		#window
+		{
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			margin: 0;
+			display: block;
+			background: transparent;
+		}
+	
+    </style>
+</head>
+<body>
+	<canvas id="window"></canvas>
+	<div id="bg"></div>
+    <!-- <img id="bg" src="./assets/images/margo.gif"> -->
+	<!-- <img id="bg" src="./assets/images/miku/miku-dance.gif"> -->
+	<img id="overlay">
+	<img id="character">
+    <audio id="music" src="./assets/music/City-of-Fire.mp3" loop></audio>
+
+	<script type="module">
+		import GameEngine from "./GameEngine.js"
+		const engine = new GameEngine("window");
+		engine.run();
+	</script>
+</body>
+</html>
