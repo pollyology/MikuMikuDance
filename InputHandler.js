@@ -35,9 +35,12 @@ document.addEventListener("keydown", (e) =>
             if (music) music.changeMusic();
             if (player) player.updateBPM();
             break;
+		case "KeyP":				// When "P" is pressed, toggle BPM mode.
+			if (particleHandler && music) particleHandler.toggleBPM(music.getCurrentBPM());
+			break;			
     }
 
-	if (player) player.dance(e.code); 
+	if (player && isDirectionPressed()) player.dance(e.code); 
     
 });
 
@@ -56,3 +59,4 @@ function isDirectionPressed()   // This is a helper function that determines if 
             keyPress["KeyS"] || keyPress["ArrowDown"] ||
             keyPress["KeyD"] || keyPress["ArrowRight"]);
 }
+

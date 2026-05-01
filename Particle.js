@@ -1,7 +1,7 @@
 import { Matrix, RotationMatrix, ScalingMatrix, TranslationMatrix } from "./Matrices.js";
 
 // Constants
-const M_PI = 3.1415926535897932384626433
+const M_PI = 3.1415926535897932384626433;
 const G = 250; //1000;
 const TTL = 3.0;
 const SCALE = 0.999 
@@ -108,7 +108,8 @@ export class Particle
         let dTheta = 2 * M_PI / (numPoints - 1);
 
         // Logic for making star-like shapes
-        let outerRadius = Math.random() * 60 + 10;     // generates a random distance that determines the length of each 'tip' of the star
+		const scale = Math.min(this.canvas.width, this.canvas.height);
+        let outerRadius = Math.random() * (scale * 0.05) + (scale * 0.01);     // generates a random distance that determines the length of each 'tip' of the star
         let innerRadius = outerRadius * 0.5           // a constant fraction that keeps the depth of each 'dip' of the star to end halfway of the outer radius
 
         for (let j = 0; j < numPoints; j++)

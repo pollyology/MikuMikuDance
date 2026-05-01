@@ -26,13 +26,34 @@ export function setCharacter(name)
 //    +---------------------------+
 //    |     HANDLING ANIMATION    |
 //    +---------------------------+
+
+export function preloadAnimation()
+{
+	const sources = [
+		frames.UP,
+		frames.DOWN,
+		frames.LEFT,
+		frames.RIGHT,
+		...idleFrames
+	];
+
+	return Promise.all
+	(
+		sources.map((src) =>
+			new Promise((resolve, reject) =>
+			{
+				const img = new Image();
+				img.onload = resolve;
+				img.onerror = reject;
+				img.src = src;
+			})
+		)
+	);
+}
+
 export function updateFrame(src)   // This method changes the overlay frame to the given source image.
 {
-    /*bg.style.display = "none";     // Hides the background gif
-    overlay.src = src;             // Set overlay image
-    overlay.style.display = "block"; // Display the image*/
-
-	character.src = src;
+    character.src = src;
 }
 
 export function resetFrame()    // This method resets the background image and hides the overlay frame.
@@ -66,8 +87,6 @@ function pulseElement(element)
         const scale = 1 + Math.sin(t * Math.PI) * amplitude;    // To simulate pulsing, use a sine wave to go from 0 -> 1 -> 0
         
         // Apply the pulse
-        //if (element.id === "character") element.style.transform = `translate(-50%, -50%) scale(${scale}) translate(-75px, 0px)`;
-        //else element.style.transform = `translate(-50%, -50%) scale(${scale * 0.67}) translate(-168px, 4px)`;    
 		element.style.transform = `${transform} scale(${scale})`;
 
         if (t < 1)
@@ -92,5 +111,6 @@ export function rotateElement(element)
 export function triggerPulse() 
 {
     pulseElement(character);
+    pulseElement(score);
     document.querySelectorAll(".bg-tile").forEach(pulseElement);
 }

@@ -4,28 +4,34 @@
 
 const tracks =
 [
-    {
+    /*{
         title: "Mystic Quest - City of Fire",
         artist: "Final Fantasy Mystic Quest",
         file: "City-of-Fire.mp3",
 		bpm: 92,
 		volume: 1.0
+    },*/
+	{
+        title: "Triple Baka",
+        artist: "LamazeP",
+        file: "Triple_Baka.mp3",
+		bpm: 90,
+		volume: 0.5
     },
     {
         title: "Mesmerizer",
         artist: "32ki",
         file: "Mesmerizer.flac",
 		bpm: 185,
-		volume: 0.75
+		volume: 0.35
     },
 	{
         title: "Drop Pop Candy",
         artist: "Luka and Miku",
         file: "drop_pop_candy.mp3",
 		bpm: 65,
-		volume: 1.0
+		volume: 0.35
     }
-
 ]
 
 export default class Music
@@ -42,15 +48,20 @@ export default class Music
 		this.timer = 0;
 		this.cooldown = 300;    // 300ms -> 0.3 s
 
-		this.music.play().catch(() => 
+		const startOnInteraction = () =>
 		{
-			console.log("Autoplay blocked, waiting for user input.");
-		});
+			if (this.music.paused)
+			{
+				this.music.play().catch(() => 
+				{
+					console.log("Autoplay blocked, waiting for user input.");
+				});
+			}
+		};
 
-		document.addEventListener("keydown", () => 
-		{
-  			if (this.music.paused) this.music.play();
-		}, { once: true });
+		document.addEventListener("keydown", startOnInteraction, { once: true });
+		document.addEventListener("click", startOnInteraction, { once: true });
+		document.addEventListener("touchstart", startOnInteraction, { once: true });
 	}
 
 	getCurrentTrack()
@@ -83,13 +94,11 @@ export default class Music
 		{
 			this.music.volume = this.getCurrentTrack().volume;
 			this.isMuted = false;
-			// button.style.backgroundImage = 'url("./assets/images/Volume_On.png")';
 		}
 		else
 		{
 			this.music.volume = 0.0;
 			this.isMuted = true;
-			// button.style.backgroundImage = 'url("./assets/images/Volume_Mute.png")';
 		}
 		console.log((this.isMuted) ? "Volume is muted." : "Volume is unmuted.");
 	}
@@ -102,16 +111,21 @@ export default class Music
 		this.timer = now;
 
 		// Loop forwards or backwards the tracklist
-		this.musicIndex = (forward) ? (this.musicIndex + 1) % this.playlist.length : (this.musicIndex - 1 + this.playlist.length) % this.playlist.length;
+		this.musicIndex = (forward) 
+			? (this.musicIndex + 1) % this.playlist.length 
+			: (this.musicIndex - 1 + this.playlist.length) % this.playlist.length;
 
 		// Change current track
+		this.music.pause();
 		this.loadCurrentTrack();
 		this.music.volume = this.getCurrentTrack().volume;
-		this.music.play()
+		
+		this.music.play().catch((err) =>
+		{
+			console.log("Play interrupted:", err);
+		});
 
 		const track = this.getCurrentTrack();
 		console.log(`Now playing: ${track.title} - ${track.artist}`);
 	}
 }
-// BPM of Music
-// Mystic Quest - 108 BPM

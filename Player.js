@@ -1,4 +1,5 @@
 import { frames, idleFrames, updateFrame, triggerPulse, setCharacter } from "./Animation.js";
+import { scoreHandler } from "./ScoreHandler.js"
 
 export default class Player
 {
@@ -76,8 +77,8 @@ export default class Player
 		//triggerPulse();
 		
 		if (this.handler) this.handler.specialEvent();
+		scoreHandler.add(50);
 		console.log("Calling dance");
-		
 	}
 	
 	resetIdle()
